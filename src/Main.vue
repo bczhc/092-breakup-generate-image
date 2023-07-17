@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import breakupData from '/092拆分.txt?raw'
 import codeData from '/092编码.txt?raw'
-import {nextTick, ref} from "vue";
+import {ref} from "vue";
 import {takeScreenshot} from "./utils";
+import {saveAs} from 'file-saver'
 
 interface ListData {
     char: string,
@@ -47,7 +48,9 @@ async function onLoad() {
 
 async function saveImageClick() {
     let view = document.querySelector('#view') as HTMLElement
-    // await takeScreenshot(view)
+    let blob = await takeScreenshot(view);
+    console.log(blob);
+    saveAs(blob, 'image.png')
 }
 </script>
 
@@ -55,7 +58,7 @@ async function saveImageClick() {
     <table>
         <tr>
             <td>
-                <div id="view">
+                <div id="view" class="td-view">
                     <ul id="data-ul">
                         <li v-for="x in getListData(inputText)" class="字根-display">
                             <span>{{ x.char }}</span>
@@ -68,8 +71,10 @@ async function saveImageClick() {
                 </div>
             </td>
             <td style="vertical-align: top">
-                <input type="text" placeholder="Input characters" v-model="inputText"><br>
-                <button @click="saveImageClick">Save image</button>
+                <div class="td-view">
+                    <input type="text" placeholder="Input characters" v-model="inputText"><br>
+                    <button @click="saveImageClick">Save image</button>
+                </div>
             </td>
         </tr>
     </table>
@@ -106,8 +111,7 @@ async function saveImageClick() {
     font-family: '〇九二字根专用', sans-serif, Sans;
 }
 
-#view {
-    display: inline;
+.td-view {
     padding: 10px;
 }
 

@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas"
 
-export async function takeScreenshot(element: HTMLElement, scale: number = 5) {
+export async function takeScreenshot(element: HTMLElement, scale: number = 5): Promise<Blob> {
     let canvas = await html2canvas(
         element,
         {
@@ -9,5 +9,9 @@ export async function takeScreenshot(element: HTMLElement, scale: number = 5) {
             scale: scale,
         }
     )
-    return canvas.toDataURL('image/png')
+    return new Promise((resolve, _reject) => {
+        canvas.toBlob(b => {
+            resolve(b)
+        })
+    })
 }
