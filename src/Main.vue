@@ -122,8 +122,18 @@ async function saveImageClick() {
     src: url('/092-breakup.otf');
 }
 
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/NotoSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Noto Sans CJK SC';
+    src: url('/NotoSansSC-Regular.otf');
+}
+
 .字根-display {
-    font-family: '〇九二字根专用', sans-serif, Sans;
+    font-family: "Noto Sans", "〇九二字根专用", "Noto Sans CJK SC", sans-serif, Sans, serif;
 }
 
 .td-view {
