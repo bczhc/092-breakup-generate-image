@@ -6,7 +6,7 @@ interface Command {
     path: string,
 }
 
-export function start(commandCallback: (command: Command) => Promise<void>) {
+export function start(port: number, commandCallback: (command: Command) => Promise<void>) {
     let server = net.createServer(async socket => {
         socket.write('Input a line:\n')
         let line = await waitLine(socket);
@@ -43,7 +43,6 @@ export function start(commandCallback: (command: Command) => Promise<void>) {
         console.log(data);
     })
 
-    let port = 8081;
     server.listen(port, '0.0.0.0')
     console.log(`Server started on port ${port}`)
 }

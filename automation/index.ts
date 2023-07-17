@@ -6,6 +6,7 @@ import * as fs from 'fs'
 
 let HEADLESS = false
 let WEBPAGE_URL = 'http://localhost:8080'
+let LISTEN_PORT = 0
 
 async function launchBrowser() {
     return await puppeteer.launch({
@@ -23,11 +24,12 @@ async function loadPage(browser, url): Promise<puppeteer.Page> {
 
 let argv = process.argv.slice(2);
 if (argv.length === 0) {
-    console.log('Usage: command <webpage-url> <headless-flag>');
+    console.log('Usage: command <webpage-url> <listen-port> [<headless-flag>]');
     process.exit(1);
 }
 WEBPAGE_URL = argv[0];
-if (argv[1] != undefined) HEADLESS = true;
+LISTEN_PORT = parseInt(argv[1])
+if (argv[2] != undefined) HEADLESS = true;
 
 (async () => await main())();
 
@@ -35,7 +37,7 @@ async function main() {
     let browser = await launchBrowser();
     let page = await loadPage(browser, WEBPAGE_URL)
 
-    server.start(async c => {
+    server.start(LISTEN_PORT, async c => {
         let data = await page.evaluate((text) => {
             let func = window['updateAndGetImage']
             console.log(func);
