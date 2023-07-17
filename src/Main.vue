@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import breakupData from '/092拆分.txt?raw'
 import codeData from '/092编码.txt?raw'
-import {ref} from "vue";
-import {takeScreenshot} from "./utils";
+import {nextTick, ref} from "vue";
+import {blobToBase64, takeScreenshot} from "./utils";
 import {saveAs} from 'file-saver'
 
 interface ListData {
@@ -27,7 +27,7 @@ for (let x of codeData.split('\n') as string[]) {
     codeMap[split[0]].push(split[1])
 }
 
-function getListData(text: string) {
+function getListData(text: string): ListData[] {
     let chars = [...text]
     return chars.map(x => {
         let breakup: string | null = breakupMap[x] || null
@@ -40,10 +40,13 @@ function getListData(text: string) {
     })
 }
 
-window.addEventListener("DOMContentLoaded", onLoad);
-
-async function onLoad() {
-    // let view = document.querySelector('#view') as HTMLElement
+window['updateAndGetImage'] = async (text: string) => {
+    let view = document.querySelector('#view') as HTMLElement
+    inputText.value = text
+    await nextTick(() => {
+    })
+    let blob = await takeScreenshot(view);
+    return await blobToBase64(blob)
 }
 
 async function saveImageClick() {
