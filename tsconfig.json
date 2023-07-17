@@ -9,6 +9,8 @@
       "dom",
       "es2015"
     ],
-    "alwaysStrict": true
+    "target": "ES2016",
+    "alwaysStrict": true,
+    "moduleResolution": "Node"
   }
 }
