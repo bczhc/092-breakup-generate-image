@@ -4,8 +4,8 @@ import * as assert from "assert";
 import * as base64js from 'base64-js'
 import * as fs from 'fs'
 
-const HEADLESS = false
-const URL = 'http://localhost:8080'
+let HEADLESS = false
+let WEBPAGE_URL = 'http://localhost:8080'
 
 async function launchBrowser() {
     return await puppeteer.launch({
@@ -21,11 +21,19 @@ async function loadPage(browser, url): Promise<puppeteer.Page> {
     return page;
 }
 
+let argv = process.argv.slice(2);
+if (argv.length === 0) {
+    console.log('Usage: command <webpage-url> <headless-flag>');
+    process.exit(1);
+}
+WEBPAGE_URL = argv[0];
+if (argv[1] != undefined) HEADLESS = true;
+
 (async () => await main())();
 
 async function main() {
     let browser = await launchBrowser();
-    let page = await loadPage(browser, URL)
+    let page = await loadPage(browser, WEBPAGE_URL)
 
     server.start(async c => {
         let data = await page.evaluate((text) => {
