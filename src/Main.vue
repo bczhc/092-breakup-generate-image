@@ -40,12 +40,17 @@ function getListData(text: string): ListData[] {
     })
 }
 
+async function sleep(millis: number) {
+    return new Promise(r => {
+        setTimeout(r, millis)
+    })
+}
+
 window['updateAndGetImage'] = async (text: string) => {
     let view = document.querySelector('#view') as HTMLElement
     inputText.value = text
-    await nextTick(() => {
-    })
-    let blob = await takeScreenshot(view);
+    await nextTick();
+    let blob = await takeScreenshot(view)
     return await blobToBase64(blob)
 }
 
