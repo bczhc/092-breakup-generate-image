@@ -40,23 +40,10 @@ function getListData(text: string): ListData[] {
     })
 }
 
-async function sleep(millis: number) {
-    return new Promise(r => {
-        setTimeout(r, millis)
-    })
-}
-
 window['updateAndGetImage'] = async (text: string) => {
     let view = document.querySelector('#view') as HTMLElement
     inputText.value = text
     await nextTick()
-    // I don't know why. On Chromium, the first `updateAndGetImage` call
-    // after webpage loaded will produce an incomplete image (in horizontal
-    // direction), but further calls are OK. On Firefox they're all OK.
-    // `nextTick()` doesn't help. The reason is that the `element.clientWidth`
-    // property gets a smaller value on the first call. Finally I end up
-    // with a workaround of making a 100ms delay (not elegant though).
-    await sleep(100)
     let blob = await takeScreenshot(view)
     return await blobToBase64(blob)
 }
@@ -70,6 +57,13 @@ async function saveImageClick() {
 </script>
 
 <template>
+  <!-- Pre-load the fonts: https://github.com/niklasvh/html2canvas/issues/2437 -->
+    <div class="font_preload" style="opacity: 0">
+        <span style="font-family: '〇九二字根专用', Arial, sans-serif;"></span>
+        <span style="font-family: 'Noto Sans CJK SC', Arial, sans-serif;"></span>
+        <span style="font-family: 'Noto Sans', Arial, sans-serif;"></span>
+    </div>
+
     <table>
         <tr>
             <td>
