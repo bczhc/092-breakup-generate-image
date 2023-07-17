@@ -22,3 +22,5 @@ netcat 127.0.0.1 8081 << EOF
 ["测试", "/home/bczhc/a.png"]
 EOF
 ```
+Open `/home/bczhc/a.png`, you can see this:
+![image](https://github.com/bczhc/092-breakup-generate-image/assets/49330580/edaf27a4-e66d-4f6e-8ed4-b251c8bc8279)
