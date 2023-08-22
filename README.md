@@ -19,7 +19,7 @@ npm run run -- 'http://localhost:5173' 8081 1
 Generate images like this (`netcat` example):
 ```shell
 netcat 127.0.0.1 8081 << EOF
-["测试", "/home/bczhc/a.png"]
+["天下事有难易乎？", "/home/bczhc/a.png"]
 EOF
 ```
 Open `/home/bczhc/a.png`, you can see this:
