@@ -1,7 +1,9 @@
 import * as puppeteer from 'puppeteer-core'
 import * as socketServer from './server/socket';
+import * as httpServer from './server/http'
 import * as assert from "assert";
 import * as base64js from 'base64-js'
+import {Input} from "./server/common";
 
 let HEADLESS = false
 let WEBPAGE_URL = 'http://localhost:8080'
@@ -15,7 +17,7 @@ async function launchBrowser() {
     });
 }
 
-async function loadPage(browser, url): Promise<puppeteer.Page> {
+async function loadPage(browser: puppeteer.Browser, url: string): Promise<puppeteer.Page> {
     let page = (await browser.pages())[0];
     await page.goto(url);
     return page;
@@ -25,7 +27,7 @@ let argv = process.argv.slice(2);
 if (argv.length === 0) {
     console.log('Usage: command <webpage-url> <listen-port> <server-type> [<headless>]');
     console.log();
-    console.log('\tServer type: socket|http|all');
+    console.log('\tServer type: socket|http');
     console.log('\tHeadless: yes|no (default: yes)')
     process.exit(1);
 }
@@ -41,7 +43,7 @@ async function main() {
     let browser = await launchBrowser();
     let page = await loadPage(browser, WEBPAGE_URL)
 
-    socketServer.start(LISTEN_PORT, async text => {
+    let requestData = async (text: Input) => {
         let data = await page.evaluate((text) => {
             let func = window['updateAndGetImage']
             console.log(func);
@@ -52,5 +54,15 @@ async function main() {
         assert(data.startsWith(lead))
         let base64 = data.substring(lead.length);
         return base64js.toByteArray(base64)
-    })
+    };
+
+    switch (serverType) {
+        case "socket":
+            socketServer.start(LISTEN_PORT, requestData)
+            break
+        case "http":
+            httpServer.start(LISTEN_PORT, requestData);
+            break;
+        default:
+    }
 }

@@ -1,8 +1,6 @@
 import * as net from "net";
 import * as readline from "readline";
-
-type Input = string
-type Callback = (text: string) => Promise<Uint8Array>
+import {Callback, Input} from './common'
 
 /**
  * Start the server
