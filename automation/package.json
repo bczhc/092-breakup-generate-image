@@ -2,9 +2,9 @@
   "name": "automation",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.ts",
   "scripts": {
-    "run": "tsc; node index.js"
+    "run": "tsc; node main.js"
   },
   "author": "",
   "license": "MIT",
