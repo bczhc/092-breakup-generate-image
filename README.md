@@ -4,7 +4,7 @@
 
 A little html2canvas demo.
 
-## Socket interface
+## Socket (TCP-based) interface
 This is an example usage:
 
 1. Start the main webpage server
