@@ -1,2 +1,1 @@
-export type Callback = (text: string) => Promise<Uint8Array>
-export type Input = string;
+export type Callback = (name: string, params: string) => Promise<Uint8Array>

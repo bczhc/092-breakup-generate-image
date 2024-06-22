@@ -1,5 +1,4 @@
 import html2canvas from "html2canvas"
-import {nextTick} from "vue";
 
 export async function takeScreenshot(element: HTMLElement, scale: number = 5): Promise<Blob> {
     let domRect = element.getBoundingClientRect();

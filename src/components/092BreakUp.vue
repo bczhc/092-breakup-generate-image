@@ -2,9 +2,8 @@
 import breakupData from '/092-break-up/092拆分.txt?raw'
 import codeData from '/092-break-up/092编码.txt?raw'
 import {nextTick, ref} from "vue";
-import {blobToBase64, takeScreenshot, takeScreenshotAndGetImage} from "../utils";
-import {saveAs} from 'file-saver'
-import {ImageSaverHandler, imageSaverManager, Params} from "../../automation/handler";
+import {takeScreenshot} from "../utils";
+import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
 
 interface ListData {
   char: string,

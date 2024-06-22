@@ -5,7 +5,7 @@
       "dom"
     ],
     "module": "CommonJS",
-    "target": "es2015",
-    "alwaysStrict": true
+    "target": "ES2017",
+    "alwaysStrict": true,
   }
 }

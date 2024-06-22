@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ImageSaverHandler, imageSaverManager, Params} from "../../automation/handler";
+import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
 import $ from 'jquery';
 import {takeScreenshot} from "../utils";
 

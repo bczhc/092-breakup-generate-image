@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {saveAs} from "file-saver";
 import {ref} from "vue";
-import {imageSaverManager} from "../../automation/handler";
+import {imageSaverManager} from "../handler";
 
 async function saveImageClick() {
   let handler = imageSaverManager().get(selectedName.value);

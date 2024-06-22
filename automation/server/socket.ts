@@ -1,47 +1,58 @@
 import * as net from "net";
-import * as readline from "readline";
-import {Callback, Input} from './common'
+import {Callback} from './common'
 
 /**
  * Start the server
  *
  * # Contract:
  *
- * - Receive: [JSON line (in UTF-8)]\n
- * - Response: [Data Length (u32LE)][Image Data]
- *
- * JSON format: {@link Input}
- *
- * e.g. `"内容"`
+ * - Request: [Length of `AppName`][AppName][Length of `Params`][Params]
+ * - Response: [Length of the image][Image Data]
  *
  * # Notes
- * If the input content is invalid (e.g. not a String JSON), this line will
- * be ignored silently
+ *
+ * All length values are in U32LE format.
  * @param port
  * @param requestData
  */
 export function start(port: number, requestData: Callback) {
     const server = net.createServer((socket) => {
-        console.log(`Connected: ${socket}`)
-        const rl = readline.createInterface({
-            input: socket,
-        });
 
-        rl.on('line', async (line) => {
-            console.log(`on line: ${line}`);
+        let savedData = [];
+        let totalLength = -1;
+        let appNameLength = -1, paramsLength = -1;
+
+        socket.on('data', async data => {
             try {
-                const input: Input = JSON.parse(line);
-                const imageData = await requestData(input);
-                const dataLengthBuffer = Buffer.alloc(4);
-                dataLengthBuffer.writeUInt32LE(imageData.length, 0);
+                let dataArray = Array.from(data);
+                console.log(dataArray);
+                savedData.push(...dataArray);
 
-                // Sending [Data Length (u32)][Image Data]
-                socket.write(Buffer.concat([dataLengthBuffer, imageData]));
+                if (totalLength == -1 && savedData.length >= 8) {
+                    // length info is done; get the size of the whole request
+                    let buffer = Buffer.from(savedData);
+                    appNameLength = buffer.readInt32LE();
+                    paramsLength = buffer.readInt32LE(4);
+                    totalLength = appNameLength + paramsLength + 4 * 2;
+                }
+
+                if (totalLength != -1 && savedData.length >= totalLength) {
+                    // the input has been fully collected
+                    let start = savedData.slice(4 * 2);
+                    let appName = new TextDecoder().decode(new Uint8Array(start.slice(0, appNameLength)));
+                    let params = new TextDecoder().decode(new Uint8Array(start.slice(appNameLength, appNameLength + paramsLength)));
+                    console.log(`Request: ${appName}, ${params}`);
+
+                    let imageData = await requestData(appName, params);
+                    const dataLengthBuffer = Buffer.alloc(4);
+                    dataLengthBuffer.writeUInt32LE(imageData.length, 0);
+                    socket.write(Buffer.concat([dataLengthBuffer, imageData]));
+                }
             } catch (error) {
                 // Ignore invalid JSON lines
                 console.error(`Error processing line: ${error.message}`);
             }
-        });
+        })
 
         // Add 'end' event listener
         socket.on('end', () => {

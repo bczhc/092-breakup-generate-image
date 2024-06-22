@@ -3,7 +3,7 @@ import * as socketServer from './server/socket';
 import * as httpServer from './server/http'
 import * as assert from "assert";
 import * as base64js from 'base64-js'
-import {Input} from "./server/common";
+import {Callback} from "./server/common";
 
 let HEADLESS = false
 let WEBPAGE_URL = 'http://localhost:8080'
@@ -43,18 +43,17 @@ async function main() {
     let browser = await launchBrowser();
     let page = await loadPage(browser, WEBPAGE_URL)
 
-    let requestData = async (text: Input) => {
-        let data = await page.evaluate((text) => {
-            let func = window['updateAndGetImage']
-            console.log(func);
-            return func(text) as string
-        }, text)
+    let requestData: Callback = async (name, params) => {
+        let data = await page.evaluate(async (name, params) => {
+            return await window['imageSaveManager']['get'](name)['generateImageBase64'](JSON.parse(params));
+        }, name, params);
 
         let lead = 'data:image/png;base64,';
         assert(data.startsWith(lead))
         let base64 = data.substring(lead.length);
-        return base64js.toByteArray(base64)
+        return base64js.toByteArray(base64);
     };
+
 
     switch (serverType) {
         case "socket":

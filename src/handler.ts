@@ -1,4 +1,4 @@
-import {blobToBase64} from "../src/utils";
+import {blobToBase64} from "./utils";
 
 /**
  * A JSON type.
