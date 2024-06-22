@@ -1,8 +1,7 @@
-092五笔拆分图片生成
+html2canvas-image-generator
 ---
-092 Wubi character breakup image generation.
 
-A little html2canvas demo.
+Generate image from HTML elements.
 
 ## Socket (TCP-based) interface
 This is an example usage:
