@@ -1,11 +1,13 @@
 import html2canvas from "html2canvas"
+import {nextTick} from "vue";
 
 export async function takeScreenshot(element: HTMLElement, scale: number = 5): Promise<Blob> {
+    let domRect = element.getBoundingClientRect();
     let canvas = await html2canvas(
         element,
         {
-            width: element.clientWidth,
-            height: element.clientHeight,
+            width: domRect.width,
+            height: domRect.height,
             scale: scale,
         }
     )
@@ -22,4 +24,9 @@ export async function blobToBase64(blob: Blob): Promise<string> {
         reader.onloadend = () => resolve(reader.result as string);
         reader.readAsDataURL(blob);
     });
+}
+
+export async function takeScreenshotAndGetImage(element: HTMLElement, scale: number = 5) {
+    let blob = await takeScreenshot(element, scale);
+    return await blobToBase64(blob);
 }

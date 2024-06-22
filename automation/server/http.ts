@@ -14,7 +14,8 @@ export function start(port: number, requestData: Callback) {
 
         // Parse the query parameters
         const queryParams = new URLSearchParams(url.split('?')[1]);
-        const text = queryParams.get('text');
+        const text = queryParams.get('name');
+        const params = queryParams.get('params');
         console.log(`text: ${text}`)
 
         if (text) {

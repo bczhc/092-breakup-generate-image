@@ -1,5 +1,5 @@
 {
-  "name": "092-breakup-generate-image",
+  "name": "html2canvas-image-generator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,12 +12,15 @@
   "dependencies": {
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
+    "jquery": "^3.7.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
+    "@types/jquery": "^3.5.30",
     "@vitejs/plugin-vue": "^4.2.3",
+    "naive-ui": "^2.38.2",
     "sass": "^1.63.6",
-    "vite": "^4.4.4"
+    "vite": "^5.3.1"
   }
 }
