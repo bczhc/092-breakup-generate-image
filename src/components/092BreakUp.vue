@@ -4,6 +4,7 @@ import codeData from '/092-break-up/092编码.txt?raw'
 import {nextTick, ref} from "vue";
 import {takeScreenshot} from "../utils";
 import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
+import FontPreloader from "./FontPreloader.vue";
 
 interface ListData {
   char: string,
@@ -52,12 +53,7 @@ imageSaverManager().register('092breakup', new class extends ImageSaverHandler {
 </script>
 
 <template>
-  <!-- Pre-load the fonts: https://github.com/niklasvh/html2canvas/issues/2437 -->
-  <div class="font_preload" style="opacity: 0">
-    <span style="font-family: '〇九二字根专用', Arial, sans-serif;"></span>
-    <span style="font-family: 'Noto Sans CJK SC', Arial, sans-serif;"></span>
-    <span style="font-family: 'Noto Sans', Arial, sans-serif;"></span>
-  </div>
+  <FontPreloader/>
 
   <div id="view" class="td-view">
     <ul id="data-ul">

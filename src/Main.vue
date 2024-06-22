@@ -2,6 +2,7 @@
 import C092BreakUp from './components/092BreakUp.vue'
 import Demo from "./components/Demo.vue";
 import SaverGui from "./components/SaverGui.vue";
+import EInkScreen from "./components/EInkScreen.vue";
 </script>
 
 <template>
@@ -11,6 +12,10 @@ import SaverGui from "./components/SaverGui.vue";
   <div class="app-component">
     <Demo/>
   </div>
+  <div class="app-component">
+    <EInkScreen/>
+  </div>
+
   <div class="center" style="width: 100%">
     <div id="click-saver">
       <SaverGui name="092breakup" :params="JSON.stringify({text: '天下事有难易乎？'})"/>
