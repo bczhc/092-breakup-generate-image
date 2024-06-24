@@ -45,7 +45,11 @@ async function main() {
 
     let requestData: Callback = async (name, params) => {
         let data = await page.evaluate(async (name, params) => {
-            return await window['imageSaveManager']['get'](name)['generateImageBase64'](JSON.parse(params));
+            let paramsObject = JSON.parse(params);
+            let imageSaveManager = window['imageSaveManager'];
+            let instance = imageSaveManager['get'](name);
+            await instance['updateData'](paramsObject);
+            return await instance['generateImageBase64'](paramsObject);
         }, name, params);
 
         let lead = 'data:image/png;base64,';
