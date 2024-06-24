@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import {saveAs} from "file-saver";
-import {ref} from "vue";
+import {nextTick, ref} from "vue";
 import {imageSaverManager} from "../handler";
+import {appParams} from "../params-data";
+import {object2Map} from "../utils";
 
 async function saveImageClick() {
-  let handler = imageSaverManager().get(selectedName.value);
-  if (!handler) {
-    alert('App name not found')
-    return
-  }
-
   try {
-    let blob = await handler.generate(JSON.parse(params.value));
+    appParams.value[selectedName.value] = JSON.parse(params.value);
+    await nextTick();
+    let blob = await imageSaverManager().get(selectedName.value).generate();
     console.log(blob);
     saveAs(blob, 'image.png')
   } catch (e) {
@@ -24,7 +22,7 @@ let props = defineProps<{
   params?: string,
 }>();
 
-let nameOptions = Array.from(imageSaverManager().handlers.keys()).map(x => ({
+let nameOptions = Array.from(object2Map(appParams.value).keys()).map(x => ({
   label: x,
   value: x,
 }));

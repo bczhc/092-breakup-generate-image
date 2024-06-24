@@ -20,12 +20,11 @@ export class ImageSaverManager {
 export abstract class ImageSaverHandler {
     /**
      * Takes a screenshot and returns the image
-     * @param params parameters
      */
-    public abstract generate(params: Params): Promise<Blob>;
+    public abstract generate(): Promise<Blob>;
 
-    public async generateImageBase64(params: Params): Promise<string> {
-        return await blobToBase64(await this.generate(params));
+    public async generateImageBase64(): Promise<string> {
+        return await blobToBase64(await this.generate());
     }
 }
 
@@ -36,3 +35,11 @@ export function imageSaverManager() {
 }
 
 window[IMAGE_SAVER_MANAGER_GLOBAL_NAME] = new ImageSaverManager();
+
+export function registerSimpleImageGenerator(name: string, handler: () => Promise<Blob>) {
+    imageSaverManager().register(name, new class extends ImageSaverHandler {
+        async generate(): Promise<Blob> {
+            return await handler()
+        }
+    });
+}

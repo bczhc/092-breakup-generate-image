@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
-import $ from 'jquery';
+import {registerSimpleImageGenerator} from "../handler";
 import {takeScreenshot} from "../utils";
+import {ref} from "vue";
 
-imageSaverManager().register('demo', new class extends ImageSaverHandler {
-  async generate(params: Params): Promise<Blob> {
-    let $span = $('#span');
-    $span.text(params['text']);
-    $span[0].innerText = params['text'];
-    return await takeScreenshot($span[0]);
-  }
+const appName = 'demo';
+
+let imageView = ref(null);
+
+let props = defineProps<{
+  params: object,
+}>()
+
+registerSimpleImageGenerator(appName, async () => {
+  return takeScreenshot(imageView.value)
 })
 </script>
 
 <template>
-  <span class="red-text" id="span"/>
+  <span class="red-text" id="span" ref="imageView">{{ props.params['text'] }}</span>
 </template>
 
 <style lang="scss">

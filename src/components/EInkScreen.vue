@@ -2,23 +2,26 @@
 <!-- Specification: 250x122 -->
 
 <script setup lang="ts">
-import FontPreloader from "./FontPreloader.vue";
-import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
+import {registerSimpleImageGenerator} from "../handler";
 import {takeScreenshot} from "../utils";
-import $ from 'jquery';
+import {ref} from "vue";
 
-imageSaverManager().register('eink-screen', new class extends ImageSaverHandler {
-  async generate(_params: Params): Promise<Blob> {
-    return await takeScreenshot($('#main-screen')[0], 1);
-  }
+const appName = 'eink-screen';
+
+let props = defineProps<{
+  params: object,
+}>()
+
+let imageView = ref(null);
+
+registerSimpleImageGenerator(appName, async () => {
+  return takeScreenshot(imageView.value, 1)
 })
 </script>
 
 <template>
-  <FontPreloader/>
-
   <div id="border-wrapper">
-    <div id="main-screen">
+    <div id="main-screen" ref="imageView">
       <span style="font-family: 'Noto Sans CJK SC', sans-serif" id="line1" class="text-line">测试</span><br>
       <span style="font-family: 'Noto Sans CJK SC', sans-serif" id="line2" class="text-line">₿: 64000$</span>
     </div>

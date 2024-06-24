@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import {takeScreenshot} from "../utils";
 import breakupData from '/092-break-up/092拆分.txt?raw'
 import codeData from '/092-break-up/092编码.txt?raw'
-import {nextTick, ref} from "vue";
-import {takeScreenshot} from "../utils";
-import {ImageSaverHandler, imageSaverManager, Params} from "../handler";
-import FontPreloader from "./FontPreloader.vue";
+import {computed, ref} from "vue";
+import {registerSimpleImageGenerator} from "../handler";
+
+const appName = '092breakup';
+
+let imageView = ref(null);
 
 interface ListData {
   char: string,
@@ -12,7 +15,11 @@ interface ListData {
   breakup?: string,
 }
 
-let inputText = ref("")
+let props = defineProps<{
+  params: object,
+}>()
+
+let inputText = computed(() => props.params['text'])
 
 let breakupMap = {}
 let codeMap: { [key: string]: string[] } = {}
@@ -41,21 +48,13 @@ function getListData(text: string): ListData[] {
   })
 }
 
-// Params: { text: string }
-imageSaverManager().register('092breakup', new class extends ImageSaverHandler {
-  async generate(params: Params): Promise<Blob> {
-    let view = document.querySelector('#view') as HTMLElement
-    inputText.value = params['text'];
-    await nextTick();
-    return await takeScreenshot(view);
-  }
+registerSimpleImageGenerator(appName, async () => {
+  return await takeScreenshot(imageView.value)
 })
 </script>
 
 <template>
-  <FontPreloader/>
-
-  <div id="view" class="td-view">
+  <div id="view" class="td-view" ref="imageView">
     <ul id="data-ul">
       <li v-for="x in getListData(inputText)" class="字根-display">
         <span>{{ x.char }}</span>

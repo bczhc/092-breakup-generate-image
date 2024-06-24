@@ -29,3 +29,7 @@ export async function takeScreenshotAndGetImage(element: HTMLElement, scale: num
     let blob = await takeScreenshot(element, scale);
     return await blobToBase64(blob);
 }
+
+export function object2Map<V>(object: object): Map<string, V> {
+    return new Map(Object.entries(object));
+}
