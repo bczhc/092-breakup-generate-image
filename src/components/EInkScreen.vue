@@ -21,6 +21,8 @@ registerSimpleImageGenerator(appName, async () => {
 interface Params {
   electricity: number,
   toZeroDate: string,
+  btcPrice: number,
+  updateAt: string,
 }
 
 </script>
@@ -30,7 +32,9 @@ interface Params {
     <div id="main-screen" ref="imageView">
       <span id="line1" class="text-line">宿舍电量：{{ (props.params as Params).electricity }} kW·h</span><br>
       <span id="line2" class="text-line">归零时间：{{ (props.params as Params).toZeroDate }}</span><br>
-      <span is="line3" class="text-line">今日天气：TODO</span>
+      <span id="line3" class="text-line">今日天气：TODO</span><br>
+      <span id="line4" class="text-line">₿/$：{{ (props.params as Params).btcPrice }}</span><br>
+      <span id="line5" class="text-line">更新于：{{ (props.params as Params).updateAt }}</span><br>
     </div>
   </div>
 </template>
@@ -56,6 +60,26 @@ interface Params {
   display: inline;
   line-height: 1;
   font-family: 'unifont', sans-serif;
+}
+
+#line2 {
+  position: relative;
+  top: -2px;
+}
+
+#line3 {
+  position: relative;
+  top: -4px;
+}
+
+#line4 {
+  position: relative;
+  top: -6px;
+}
+
+#line5 {
+  position: relative;
+  top: -8px;
 }
 
 @font-face {
