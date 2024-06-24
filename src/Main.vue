@@ -12,20 +12,20 @@ import {appParams} from "./params-data";
   <FontPreloader/>
 
   <div class="app-component">
-    <C092BreakUp :params="appParams['092breakup']" id="view-092breakup"/>
+    <C092BreakUp :params="appParams['092breakup']"/>
     <ParamsFormGui v-model:params="appParams['092breakup']"/>
   </div>
   <div class="app-component">
-    <Demo :params="appParams['demo']" id="view-demo"/>
+    <Demo :params="appParams['demo']"/>
     <ParamsFormGui v-model:params="appParams['demo']"/>
   </div>
   <div class="app-component">
-    <EInkScreen :params="appParams['eink-screen']" id="view-eink-screen"/>
+    <EInkScreen :params="appParams['eink-screen']"/>
   </div>
 
   <div class="center" style="width: 100%">
     <div id="click-saver">
-      <n-space justify="center">
+      <n-space justify="center" vertical>
         <n-p>Function Call Test</n-p>
         <SaverGui name="092breakup" :params="JSON.stringify({text: '天下事有难易乎？'})"/>
       </n-space>
