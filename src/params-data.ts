@@ -11,6 +11,7 @@ export let appParams = ref({
         electricity: 123.45,
         toZeroDate: '09 Jun 12:34:12',
         btcPrice: 12345.11212123,
-        updateAt: '09 Jun 12:38:22'
+        updateAt: '09 Jun 12:38:22',
+        weather: '中雨 23~26°C'
     }
 })
