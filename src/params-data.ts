@@ -9,8 +9,8 @@ export let appParams = ref({
     },
     'eink-screen': {
         electricity: 123.45,
-        toZeroDate: '05-09 12:34',
+        toZeroDate: '09 Jun 12:34:12',
         btcPrice: 12345.11212123,
-        updateAt: '05-09 12:38'
+        updateAt: '09 Jun 12:38:22'
     }
 })

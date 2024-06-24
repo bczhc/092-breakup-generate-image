@@ -30,10 +30,10 @@ interface Params {
 <template>
   <div id="border-wrapper">
     <div id="main-screen" ref="imageView">
-      <span id="line1" class="text-line">宿舍电量：{{ (props.params as Params).electricity }} kW·h</span><br>
+      <span id="line1" class="text-line">宿舍电量：{{ (props.params as Params).electricity.toFixed(2) }} kW·h</span><br>
       <span id="line2" class="text-line">归零时间：{{ (props.params as Params).toZeroDate }}</span><br>
       <span id="line3" class="text-line">今日天气：TODO</span><br>
-      <span id="line4" class="text-line">₿/$：{{ (props.params as Params).btcPrice }}</span><br>
+      <span id="line4" class="text-line">₿/$：{{ (props.params as Params).btcPrice.toFixed(10) }}</span><br>
       <span id="line5" class="text-line">更新于：{{ (props.params as Params).updateAt }}</span><br>
     </div>
   </div>
@@ -56,7 +56,7 @@ interface Params {
   -moz-osx-font-smoothing: never;
   -webkit-font-smoothing: never;
   font-size: 16px;
-  margin-left: 10px;
+  margin-left: 6px;
   display: inline;
   line-height: 1;
   font-family: 'unifont', sans-serif;
