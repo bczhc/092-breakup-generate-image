@@ -26,7 +26,7 @@ import {appParams} from "./params-data";
   <div class="center" style="width: 100%">
     <div id="click-saver">
       <n-space justify="center">
-        <n-p>Function Call Demo</n-p>
+        <n-p>Function Call Test</n-p>
         <SaverGui name="092breakup" :params="JSON.stringify({text: '天下事有难易乎？'})"/>
       </n-space>
     </div>

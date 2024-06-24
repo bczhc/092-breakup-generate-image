@@ -80,3 +80,5 @@ This is an example usage:
    ```
 4. If you save the output as a `.png` file plus open it, you can see this:
    ![image](https://github.com/bczhc/092-breakup-generate-image/assets/49330580/edaf27a4-e66d-4f6e-8ed4-b251c8bc8279)
+
+Examples above are in the folder `server-tests`.
