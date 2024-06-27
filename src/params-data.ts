@@ -8,10 +8,12 @@ export let appParams = ref({
         text: '',
     },
     'eink-screen': {
-        electricity: 123.45,
-        toZeroDate: '09 Jun 12:34:12',
-        btcPrice: 12345.11212123,
-        updateAt: '09 Jun 12:38:22',
-        weather: '中雨 23~26°C'
+        lines: [
+            '用电剩余：123.45 kW·h',
+            '归零时间：09 Jun 12:34:12',
+            '当前天气：中雨 23~26°C',
+            '₿/$：12345.6765434',
+            '更新于：09 Jun 12:38:22',
+        ]
     }
 })
